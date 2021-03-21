@@ -29,6 +29,9 @@ namespace PresentationLayer
                 options.UseSqlServer(Configuration["SqlServerConnectionString"], b => b.MigrationsAssembly("DataAccessLayer"));
             });
 
+            services.AddScoped<IApplicationDbContext, ApplicationDbContext>(); //настроили внедрение зависимости 
+
+
 
             services.AddControllersWithViews();
           
