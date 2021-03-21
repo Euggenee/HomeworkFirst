@@ -7,6 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using BusinessLogicLayer.AuthService;
+using BusinessLogicLayer.PublicDataService;
+using BusinessLogicLayer.PrivateDataService;
+using BusinessLogicLayer.UserService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace PresentationLayer
 {
@@ -19,9 +26,25 @@ namespace PresentationLayer
 
         public IConfiguration Configuration { get; }
 
-       
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //JWT
+            services.AddAuthentication(opt=> {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            
+            }).AddJwtBearer(opt=>{
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = "https://localhost:5001",
+                    ValidAudience = "https://localhost:5001",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KeyHIUYM@12345678"))
+                };
+            });
 
             //Db 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -30,9 +53,12 @@ namespace PresentationLayer
             });
 
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>(); //настроили внедрение зависимости 
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IPublicDataService, PublicDataService>();
+            services.AddScoped<IPrivateDataService, PrivateDataService>();
+            services.AddScoped<IUserService, UserService>();
 
-
-
+            
             services.AddControllersWithViews();
           
             services.AddSpaStaticFiles(configuration =>
@@ -41,7 +67,6 @@ namespace PresentationLayer
             });
         }
 
-        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -51,7 +76,6 @@ namespace PresentationLayer
             else
             {
                 app.UseExceptionHandler("/Error");
-                
                 app.UseHsts();
             }
 
@@ -63,6 +87,8 @@ namespace PresentationLayer
             }
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -73,8 +99,6 @@ namespace PresentationLayer
 
             app.UseSpa(spa =>
             {
-              
-
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())

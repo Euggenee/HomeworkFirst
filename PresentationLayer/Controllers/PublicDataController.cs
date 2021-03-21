@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogicLayer.Models;
+using BusinessLogicLayer.PublicDataService;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,40 +11,21 @@ using System.Threading.Tasks;
 
 namespace PresentationLayer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class PublicDataController : ControllerBase
     {
-        // GET: api/<PublicDataController>
+        private readonly IPublicDataService _publicData;
+        public PublicDataController(IPublicDataService publicData) // Здесь пройдет инициал. благодаря механизму адд скопе класса стартап
+        {
+            _publicData = publicData;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("data")]
+        public List<PublicData> GetData()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<PublicDataController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<PublicDataController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<PublicDataController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<PublicDataController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+             return _publicData.GetPublicData();
         }
     }
 }

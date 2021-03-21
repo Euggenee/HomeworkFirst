@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogicLayer.Models;
+using BusinessLogicLayer.PrivateDataService;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,40 +11,25 @@ using System.Threading.Tasks;
 
 namespace PresentationLayer.Controllers
 {
-    [Route("api/[controller]")]
+
+
+    [Route("[controller]")]
     [ApiController]
     public class PrivateDataController : ControllerBase
     {
-        // GET: api/<PrivateDataController>
+        private readonly IPrivateDataService _privateData;
+        public PrivateDataController(IPrivateDataService privateData) // Здесь пройдет инициал. благодаря механизму адд скопе класса стартап
+        {
+            _privateData = privateData;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Authorize]
+        [Route("data")]
+        public List<PrivateData> GetData()
         {
-            return new string[] { "value1", "value2" };
+           return _privateData.GetPrivateData();
         }
 
-        // GET api/<PrivateDataController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<PrivateDataController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<PrivateDataController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<PrivateDataController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

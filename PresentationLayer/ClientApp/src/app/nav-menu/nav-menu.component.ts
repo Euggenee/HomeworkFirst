@@ -15,4 +15,7 @@ export class NavMenuComponent {
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
+  onClick(){
+    localStorage.clear();
+  }
 }
