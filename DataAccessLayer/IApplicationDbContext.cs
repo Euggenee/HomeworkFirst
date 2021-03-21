@@ -9,5 +9,6 @@ namespace DataAccessLayer
    public interface IApplicationDbContext
     {
         public DbSet<PublicData> PublicDatas { get; set; }
+        public DbSet<PrivateData> PrivateDatas { get; set; }
     }
 }
