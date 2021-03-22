@@ -19,14 +19,15 @@ namespace BusinessLogicLayer.AuthService
             _dbContext = dbContext;
         }
 
-        public bool UserIdentification(Login user)
+        public bool UserIdentification(Login login)
         {
-            var dbUser = _dbContext.Users.FirstOrDefault(u => u.NickName == user.NickName && u.Password == user.Password);
+            var dbUser = _dbContext.Users.Select(u => new {u.NickName, u.Password }).FirstOrDefault(u =>  u.NickName == login.NickName && u.Password == login.Password);
 
-            if (dbUser.NickName == user.NickName && dbUser.Password == user.Password)
+            if (dbUser != null )
             {
                 return true;
             }
+            
             return false;
         }
 

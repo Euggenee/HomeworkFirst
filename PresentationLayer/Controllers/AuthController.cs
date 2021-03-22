@@ -47,7 +47,6 @@ namespace PresentationLayer.Controllers
         public void AddNewUser(CheckIn checkIn)
         {
             _authService.AddUser(checkIn);
-
         }
     }
 }
