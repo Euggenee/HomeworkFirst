@@ -26,9 +26,9 @@ namespace PresentationLayer.Controllers
         [HttpGet]
         [Authorize]
         [Route("data")]
-        public List<PrivateData> GetData()
+        public  List<PrivateData> GetData()
         {
-           return _privateData.GetPrivateData();
+           return  _privateData.GetPrivateData();
         }
 
     }

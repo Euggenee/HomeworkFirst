@@ -44,9 +44,15 @@ namespace PresentationLayer.Controllers
 
         [HttpPost]
         [Route("post-user")]
-        public void AddNewUser(CheckIn checkIn)
+        public IActionResult AddNewUser(CheckIn checkIn)
         {
-            _authService.AddUser(checkIn);
+            if (checkIn.Password != "" && checkIn.NickName != "")
+            {
+                _authService.AddUser(checkIn);
+                return Ok();
+            }
+        
+            return BadRequest();
         }
     }
 }
