@@ -23,9 +23,13 @@ namespace PresentationLayer.Controllers
 
         [HttpGet]
         [Route("data")]
-        public List<PublicData> GetData()
+        public IActionResult GetData()
         {
-             return _publicData.GetPublicData();
+            var data = _publicData.GetPublicData();
+            if(data == null) {
+                return BadRequest();
+            }
+            return Ok(data);
         }
     }
 }
