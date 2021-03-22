@@ -26,9 +26,14 @@ namespace PresentationLayer.Controllers
         [HttpGet]
         [Authorize]
         [Route("data")]
-        public  List<PrivateData> GetData()
+        public IActionResult GetData()
         {
-           return  _privateData.GetPrivateData();
+            var data = _privateData.GetPrivateData();
+            if (data == null) 
+            {
+                return BadRequest();
+            }
+            return Ok(data);
         }
 
     }
