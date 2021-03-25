@@ -9,8 +9,8 @@ namespace BusinessLogicLayer.PrivateDataService
 {
     public class PrivateDataService : IPrivateDataService
     {
-        private readonly ApplicationDbContext _dbContext;
-        public PrivateDataService(ApplicationDbContext dbContext) // Здесь пройдет инициал. благодаря механизму адд скопе класса стартап
+        private readonly IApplicationDbContext _dbContext;
+        public PrivateDataService(IApplicationDbContext dbContext) // Здесь пройдет инициал. благодаря механизму адд скопе класса стартап
         {
             _dbContext = dbContext;
         }

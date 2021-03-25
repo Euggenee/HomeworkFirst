@@ -10,8 +10,8 @@ namespace BusinessLogicLayer.PublicDataService
     public class PublicDataService : IPublicDataService
     {
        
-        private readonly ApplicationDbContext _dbContext;
-        public PublicDataService(ApplicationDbContext dbContext) // Здесь пройдет инициал. благодаря механизму адд скопе класса стартап
+        private readonly IApplicationDbContext _dbContext;
+        public PublicDataService(IApplicationDbContext dbContext) // Здесь пройдет инициал. благодаря механизму адд скопе класса стартап
         {
             _dbContext = dbContext;
         }

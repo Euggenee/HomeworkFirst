@@ -13,8 +13,8 @@ namespace BusinessLogicLayer.AuthService
    public class AuthService: IAuthService
     {
 
-        private readonly ApplicationDbContext _dbContext;
-        public AuthService(ApplicationDbContext dbContext) // Здесь пройдет инициал. благодаря механизму адд скопе класса стартап
+        private readonly IApplicationDbContext _dbContext;
+        public AuthService(IApplicationDbContext dbContext) // Здесь пройдет инициал. благодаря механизму адд скопе класса стартап
         {
             _dbContext = dbContext;
         }

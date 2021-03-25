@@ -17,7 +17,7 @@ namespace PresentationLayer.Controllers
 
         private readonly IAuthService _authService;
       
-        public AuthController(IAuthService authService, IUserService userService)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
         }
