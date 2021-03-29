@@ -1,7 +1,9 @@
-﻿using BusinessLogicLayer.Models;
+﻿using BusinessLogicLayer.Filters;
+using BusinessLogicLayer.Models;
 using BusinessLogicLayer.PrivateDataService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace PresentationLayer.Controllers
     public class PrivateDataController : ControllerBase
     {
         private readonly IPrivateDataService _privateData;
+
         public PrivateDataController(IPrivateDataService privateData) // Здесь пройдет инициал. благодаря механизму адд скопе класса стартап
         {
             _privateData = privateData;
@@ -26,6 +29,7 @@ namespace PresentationLayer.Controllers
         [HttpGet]
         [Authorize]
         [Route("data")]
+       /* [ServiceFilter(typeof(ApiRequestsLogAttribute))]*/
         public IActionResult GetData()
         {
             var data = _privateData.GetPrivateData();

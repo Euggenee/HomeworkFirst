@@ -14,6 +14,7 @@ using BusinessLogicLayer.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BusinessLogicLayer.Filters;
 
 namespace PresentationLayer
 {
@@ -28,7 +29,10 @@ namespace PresentationLayer
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(typeof(ApiRequestsLogAttribute));
+            });
             //JWT
             services.AddAuthentication(opt=> {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -57,8 +61,12 @@ namespace PresentationLayer
             services.AddScoped<IPublicDataService, PublicDataService>();
             services.AddScoped<IPrivateDataService, PrivateDataService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ApiRequestsLogAttribute>();
 
-            
+           
+
+
+
             services.AddControllersWithViews();
           
             services.AddSpaStaticFiles(configuration =>
