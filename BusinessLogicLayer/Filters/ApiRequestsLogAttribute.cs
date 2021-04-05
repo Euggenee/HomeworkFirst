@@ -17,12 +17,13 @@ namespace BusinessLogicLayer.Filters
         }
         public override void OnActionExecuting(ActionExecutingContext context) 
         {
-            var request = context.HttpContext.Request;
+           
+            var deskriptor = context.ActionDescriptor as Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor;
 
             DataAccessLayer.Entities.ApiRequestsLog apiRequestsLog = new DataAccessLayer.Entities.ApiRequestsLog()
             {
-                EndpointName = request.Path.ToString(),
-                ResourceName = request.Method.ToString(),
+                EndpointName = deskriptor.ActionName.ToString(),
+                ResourceName = deskriptor.ControllerName.ToString(),
                 RequestTime = DateTime.UtcNow
             };
 
