@@ -15,6 +15,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BusinessLogicLayer.Filters;
+using System.Linq;
+using DataAccessLayer.Entities;
+using BusinessLogicLayer.DataProviderProfilerService;
 
 namespace PresentationLayer
 {
@@ -64,6 +67,7 @@ namespace PresentationLayer
             services.AddScoped<IPublicDataService, PublicDataService>();
             services.AddScoped<IPrivateDataService, PrivateDataService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDataProviderProfilerService, DataProviderProfilerService>();
 
             //Filter
             services.AddScoped<ApiRequestsLogAttribute>();
@@ -119,6 +123,36 @@ namespace PresentationLayer
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+            SeedDefault(app);
         }
+        private void SeedDefault(IApplicationBuilder app)
+        {
+            var ScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            using (var scope = ScopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                if (dbContext.Employes.FirstOrDefault(u => u.Name == "Name 1") == null)
+                {
+                    for (int i = 1; i <= 5000; i++)
+                        dbContext.Employes.Add(new Employe { Name = "Name " + i, Surname = "Surname " + i });
+                }
+                if (dbContext.HiringHistoris.FirstOrDefault(u => u.Name == "Name 1") == null)
+                {
+                    for (int j = 1; j <= 10000; j++)
+                        dbContext.HiringHistoris.Add(new HiringHistori { Name = "Name " + j });
+                }
+                if (dbContext.Achievements.FirstOrDefault(u => u.Description == "Description 1") == null)
+                {
+                    for (int k = 1; k <= 20000; k++)
+                        dbContext.Achievements.Add(new Achievement { Description = "Description " + k });
+
+                }
+                dbContext.SaveChanges();
+            }
+        }
+
     }
+
+
+   
 }
