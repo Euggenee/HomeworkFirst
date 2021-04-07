@@ -1,3 +1,4 @@
+import { Time } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class PublicDataComponent {
   publicDatas: [];
+  leadTime:LeadTime;
 
   constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
    
@@ -15,11 +17,19 @@ export class PublicDataComponent {
       this.publicDatas = result
       this.router.navigate(['/public'])
       console.log(result)
-    },
-      (error) => {
-        error
-      }
-    );
+    },(error) => {error });
+
+      this.http.get("https://localhost:44325/" + 'api/DataProviderProfiler/get-dataProviderProfiler').subscribe((result: any) => {
+        debugger
+        this.leadTime = result
+        console.log(result);
+      },(error) => { error});
   }
   ngOnInit(){ }
 }
+
+ class LeadTime
+    {
+       linqMethodLeadTime:number
+       rawSQLQueryLeadTime: number
+    }

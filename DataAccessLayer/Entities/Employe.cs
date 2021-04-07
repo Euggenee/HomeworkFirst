@@ -11,6 +11,6 @@ namespace DataAccessLayer.Entities
         public string Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public ICollection<HiringHistori> HiringHistories { get; set; }
+        public ICollection<HiringHistori> HiringHistoris { get; set; }
     }
 }

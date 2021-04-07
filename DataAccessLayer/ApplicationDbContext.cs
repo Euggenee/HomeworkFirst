@@ -10,7 +10,7 @@ namespace DataAccessLayer
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
+            Database.SetCommandTimeout(150000);
         }
         public override int SaveChanges() //  перегрузили(переопределили)
         {

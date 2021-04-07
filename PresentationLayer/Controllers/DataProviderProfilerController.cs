@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessLogicLayer.DataProviderProfilerService;
+using BusinessLogicLayer.Models;
 
 namespace PresentationLayer.Controllers
 {
@@ -20,10 +21,15 @@ namespace PresentationLayer.Controllers
 
         [HttpGet]
         [Route("get-dataProviderProfiler")]
-        public ActionResult GetDataProviderProfiler()
+        public ActionResult<LeadTime> GetDataProviderProfiler()
         {
-            _dataProviderProfilerService.ComparePerformance();
-            return Ok();
+           var leadTime = _dataProviderProfilerService.ComparePerformance();
+            if (leadTime.LinqMethodLeadTime != 0 && leadTime.RawSQLQueryLeadTime != 0)
+            {
+                return Ok(leadTime);
+            }
+            return BadRequest();
+            
         }
     }
 }

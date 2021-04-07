@@ -18,6 +18,7 @@ using BusinessLogicLayer.Filters;
 using System.Linq;
 using DataAccessLayer.Entities;
 using BusinessLogicLayer.DataProviderProfilerService;
+using Microsoft.OpenApi.Models;
 
 namespace PresentationLayer
 {
@@ -72,8 +73,13 @@ namespace PresentationLayer
             //Filter
             services.AddScoped<ApiRequestsLogAttribute>();
 
-           
 
+            //Swager
+            services.AddSwaggerGen(sw =>
+            {
+                sw.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger API", Version = "version 1" });
+                /*     sw.SwaggerDoc("v2", new OpenApiInfo {Title = "Swager API", Version = "version 2"});*/
+            });
 
 
             services.AddControllersWithViews();
@@ -89,6 +95,11 @@ namespace PresentationLayer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();                   //  генерит док для описания swagger
+                app.UseSwaggerUI(sw =>
+                {
+                    sw.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1");  // путь к док который нужно сгенерир
+                });
             }
             else
             {
@@ -138,14 +149,25 @@ namespace PresentationLayer
                 }
                 if (dbContext.HiringHistoris.FirstOrDefault(u => u.Name == "Name 1") == null)
                 {
-                    for (int j = 1; j <= 10000; j++)
-                        dbContext.HiringHistoris.Add(new HiringHistori { Name = "Name " + j });
+                    var emploes = dbContext.Employes.ToList();
+                    int count = 0;
+                    for (int j = 1; j <= 2; j++)
+                        for (int i = 0; i < emploes.Count; i++) 
+                        {
+                            count++;
+                            dbContext.HiringHistoris.Add(new HiringHistori { Name = "Name " + count, EmployeId = emploes[i].Id });
+                        }
                 }
                 if (dbContext.Achievements.FirstOrDefault(u => u.Description == "Description 1") == null)
                 {
-                    for (int k = 1; k <= 20000; k++)
-                        dbContext.Achievements.Add(new Achievement { Description = "Description " + k });
-
+                    var hiringHistoris = dbContext.HiringHistoris.ToList();
+                    int count = 0;
+                    for (int k = 1; k <= 2; k++)
+                        for (int i = 0; i < hiringHistoris.Count; i++)
+                        {
+                            count++;
+                            dbContext.Achievements.Add(new Achievement { Description = "Description " + count,  HiringHistoriId = hiringHistoris[i].Id });
+                        }
                 }
                 dbContext.SaveChanges();
             }
