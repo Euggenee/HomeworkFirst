@@ -20,9 +20,7 @@ export class PublicDataComponent {
     },(error) => {error });
 
       this.http.get("https://localhost:44325/" + 'api/DataProviderProfiler/get-dataProviderProfiler').subscribe((result: any) => {
-        debugger
         this.leadTime = result
-        console.log(result);
       },(error) => { error});
   }
   ngOnInit(){ }
