@@ -19,12 +19,7 @@ namespace BusinessLogicLayer.DataProviderProfilerService
         }
         public LeadTime ComparePerformance()
         {
-             Stopwatch linqMethodLeadTime = new Stopwatch();
-       
-            linqMethodLeadTime.Start();
-            var employesLinq = _dbContext.Employes.Include(e => e.HiringHistoris).ThenInclude(a => a.Achievements).ToList();
-            linqMethodLeadTime.Stop();
-            long LinqMethodLeadTime = linqMethodLeadTime.ElapsedMilliseconds;
+            
 
             Stopwatch rawSQLQueryLeadTime = new Stopwatch();
             rawSQLQueryLeadTime.Start();
@@ -37,6 +32,13 @@ namespace BusinessLogicLayer.DataProviderProfilerService
                 JOIN Achievements ON Achievements.HiringHistoriId = HiringHistoris.Id*/
             rawSQLQueryLeadTime.Stop();
             long RawSQLQueryLeadTime = rawSQLQueryLeadTime.ElapsedMilliseconds;
+
+            Stopwatch linqMethodLeadTime = new Stopwatch();
+
+            linqMethodLeadTime.Start();
+            var employesLinq = _dbContext.Employes.Include(e => e.HiringHistoris).ThenInclude(a => a.Achievements).ToList();
+            linqMethodLeadTime.Stop();
+            long LinqMethodLeadTime = linqMethodLeadTime.ElapsedMilliseconds;
 
             return new LeadTime { LinqMethodLeadTime = LinqMethodLeadTime, RawSQLQueryLeadTime = RawSQLQueryLeadTime };
         }

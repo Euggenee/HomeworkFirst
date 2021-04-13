@@ -145,8 +145,12 @@ namespace PresentationLayer
                 if (dbContext.Employes.FirstOrDefault(u => u.Name == "Name 1") == null)
                 {
                     for (int i = 1; i <= 5000; i++)
+                    {
                         dbContext.Employes.Add(new Employe { Name = "Name " + i, Surname = "Surname " + i });
+                    }
+                    dbContext.SaveChanges();
                 }
+                
                 if (dbContext.HiringHistoris.FirstOrDefault(u => u.Name == "Name 1") == null)
                 {
                     var emploes = dbContext.Employes.ToList();
@@ -157,7 +161,9 @@ namespace PresentationLayer
                             count++;
                             dbContext.HiringHistoris.Add(new HiringHistori { Name = "Name " + count, EmployeId = emploes[i].Id });
                         }
+                    dbContext.SaveChanges();
                 }
+               
                 if (dbContext.Achievements.FirstOrDefault(u => u.Description == "Description 1") == null)
                 {
                     var hiringHistoris = dbContext.HiringHistoris.ToList();
@@ -168,8 +174,9 @@ namespace PresentationLayer
                             count++;
                             dbContext.Achievements.Add(new Achievement { Description = "Description " + count,  HiringHistoriId = hiringHistoris[i].Id });
                         }
+                    dbContext.SaveChanges();
                 }
-                dbContext.SaveChanges();
+                
             }
         }
 
