@@ -24,5 +24,7 @@ namespace DataAccessLayer
         public DbSet<Employe> Employes { get; set; }
         public DbSet<HiringHistori> HiringHistoris { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<Room> Rooms { get; set; }
     }
 }

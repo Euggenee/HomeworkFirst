@@ -19,6 +19,7 @@ using System.Linq;
 using DataAccessLayer.Entities;
 using BusinessLogicLayer.DataProviderProfilerService;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace PresentationLayer
 {
@@ -176,7 +177,17 @@ namespace PresentationLayer
                         }
                     dbContext.SaveChanges();
                 }
-                
+                if (dbContext.Hotels.FirstOrDefault(u => u.HotelName == "HotelName 1") == null)
+                {
+                    Random rnd = new Random();
+                    for (int i = 1; i <= 5; i++)
+                    {
+                        decimal RoomRate = rnd.Next(2000, 4000);
+                        dbContext.Hotels.Add(new Hotel { HotelName = "HotelName " + i, RoomStatus = i, RoomRate = RoomRate });
+                    }
+                    dbContext.SaveChanges();
+                }
+
             }
         }
 
