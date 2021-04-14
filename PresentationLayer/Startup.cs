@@ -177,7 +177,7 @@ namespace PresentationLayer
                         }
                     dbContext.SaveChanges();
                 }
-                if (dbContext.Hotels.FirstOrDefault(u => u.HotelName == "HotelName 1") == null)
+               /* if (dbContext.Hotels.FirstOrDefault(u => u.HotelName == "HotelName 1") == null)
                 {
                     Random rnd = new Random();
                     for (int i = 1; i <= 5; i++)
@@ -186,7 +186,7 @@ namespace PresentationLayer
                         dbContext.Hotels.Add(new Hotel { HotelName = "HotelName " + i, RoomStatus = i, RoomRate = RoomRate });
                     }
                     dbContext.SaveChanges();
-                }
+                }*/
 
             }
         }
