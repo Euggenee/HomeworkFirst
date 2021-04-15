@@ -71,7 +71,7 @@ namespace DataAccessLayer.Migrations
                 RoomStatus =  Rooms.RoomStatus,
                 RoomRate =  Rooms.RoomRate
                 from Rooms
-                WHERE Rooms.Id = Hotels.Id
+                WHERE Rooms.HotelId = Hotels.Id
                 ");
 
             migrationBuilder.DropTable(
